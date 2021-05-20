@@ -13,7 +13,7 @@ class EmpVO:
     sal=0
     dvo=NULL #포함 클래스 (has-a)
     def __init__(self):
-        dvo=DeptVO()
+        self.dvo=DeptVO()
 class EmpDAO:
     
     conn=NULL
@@ -27,12 +27,20 @@ class EmpDAO:
     def selectOne(self,empno):
         self.getConnection()
         sql=f"""
-              SELECT empno,ename,job,sal,dname,loc 
+              SELECT empno,ename,job,sal,dname,loc,emp.deptno
               FROM emp,dept 
               WHERE emp.deptno=dept.deptno
               AND empno={empno}
             """
         #실행 
+        '''
+           int() : 정수 변환 
+           float() : 실수 변환
+           str() => 문자열 변환
+           bool() => True/False
+           data=(a,b,c,d) => Tuple => 데이터 수정이 불가능  => list(())
+           => data[0]...data[n]
+        '''
         self.cursor.execute(sql)
         data=self.cursor.fetchone()
         print(data)
@@ -40,10 +48,10 @@ class EmpDAO:
         vo.empno=int(data[0])
         vo.ename=data[1]
         vo.job=data[2]
-        vo.sal=int(data[3])
-        #vo.dvo.deptno=int(data[4])
-        #vo.dvo.dname=data[4]
-        #vo.dvo.loc=data[5]   
+        vo.sal=float(data[3])
+        vo.dvo.deptno=int(data[6])
+        vo.dvo.dname=data[4]
+        vo.dvo.loc=data[5]   
         self.disConnection()
         return vo
        
@@ -52,6 +60,8 @@ vo=dao.selectOne(7788)
 print(f"사번:{vo.empno}")
 print("이름:"+vo.ename)
 print("직위:"+vo.job)
+print(f"급여:{vo.sal}")
+print(f"부서번호:{vo.dvo.deptno}")
 print("부서명:"+vo.dvo.dname)
 print("근무지:"+vo.dvo.loc)
 

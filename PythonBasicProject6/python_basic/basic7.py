@@ -29,20 +29,14 @@ recipe_data=res_html.text
 #print(recipe_data)
 soup=BeautifulSoup(recipe_data,'html.parser')
 titleList=soup.select(".common_sp_caption .common_sp_caption_tit")
-for title in titleList:
-    print(title.text)
-
 chefList=soup.select(".common_sp_caption_rv_name a")
-for chef in chefList:
-    print(chef.text)
-
 imgList=soup.select(".common_sp_thumb .common_sp_link img")
-for img in imgList:
-    print(img.attrs['src'])
-    
 hitList=soup.select(".common_sp_caption_buyer")
-for hit in hitList:
-    print(hit.text)
+for i in range(0,len(titleList)):
+  print(titleList[i].text)
+  print(chefList[i].text)
+  print(hitList[i].text)
+  print("===============")
 
 
 
